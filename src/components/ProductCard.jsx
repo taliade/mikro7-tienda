@@ -1,16 +1,21 @@
-import { Minus, Plus, MessageCircle } from "lucide-react";
-import { currencyFormatter, SIZES } from "../data/products";
+import { Minus, Plus, MessageCircle, HelpCircle } from "lucide-react";
+import { currencyFormatter, SIZES, JEAN_SIZES, JEAN_SPECIAL_SIZES } from "../data/products";
 import { buildProductWhatsAppLink } from "../lib/whatsapp";
 
 const MIN_QTY = 1;
 const MAX_QTY = 20;
 
 export default function ProductCard({ product, selection, onSizeChange, onQuantityChange }) {
-  const { name, price, tag, images, description } = product;
+  const { name, category, price, tag, images, description } = product;
   const { size, quantity } = selection;
   const [coverImage, hoverImage] = images;
 
-  const whatsappLink = buildProductWhatsAppLink({ name, size, quantity });
+  const isJean = category === "jean";
+  const regularSizes = isJean ? JEAN_SIZES : SIZES;
+  const specialSizes = isJean ? JEAN_SPECIAL_SIZES : [];
+  const isSpecialSize = specialSizes.includes(size);
+
+  const whatsappLink = buildProductWhatsAppLink({ name, category, size, quantity, isSpecialSize });
 
   const decrement = () => onQuantityChange(Math.max(MIN_QTY, quantity - 1));
   const increment = () => onQuantityChange(Math.min(MAX_QTY, quantity + 1));
@@ -45,13 +50,17 @@ export default function ProductCard({ product, selection, onSizeChange, onQuanti
           <p className="mt-0.5 text-xs text-muted">{description}</p>
         </div>
 
-        <p className="font-display text-lg font-bold text-cyan-soft">{currencyFormatter.format(price)}</p>
+        {isSpecialSize ? (
+          <p className="font-display text-lg font-bold text-cyan-soft">A consultar</p>
+        ) : (
+          <p className="font-display text-lg font-bold text-cyan-soft">{currencyFormatter.format(price)}</p>
+        )}
 
         {/* Selector de talle */}
         <fieldset>
           <legend className="mb-1.5 text-xs font-medium text-muted">Talle</legend>
           <div className="flex flex-wrap gap-1.5" role="radiogroup" aria-label={`Talle para ${name}`}>
-            {SIZES.map((sizeOption) => {
+            {regularSizes.map((sizeOption) => {
               const isActive = sizeOption === size;
               return (
                 <button
@@ -71,6 +80,36 @@ export default function ProductCard({ product, selection, onSizeChange, onQuanti
               );
             })}
           </div>
+
+          {specialSizes.length > 0 && (
+            <div className="mt-2.5">
+              <p className="mb-1.5 flex items-center gap-1 text-[11px] font-medium text-muted">
+                <HelpCircle className="h-3 w-3" aria-hidden="true" />
+                Talles especiales (consultar precio)
+              </p>
+              <div className="flex flex-wrap gap-1.5" role="radiogroup" aria-label={`Talles especiales para ${name}`}>
+                {specialSizes.map((sizeOption) => {
+                  const isActive = sizeOption === size;
+                  return (
+                    <button
+                      key={sizeOption}
+                      type="button"
+                      role="radio"
+                      aria-checked={isActive}
+                      onClick={() => onSizeChange(sizeOption)}
+                      className={`h-8 min-w-[2.25rem] rounded-lg border border-dashed px-2 text-xs font-semibold transition-colors ${
+                        isActive
+                          ? "border-cyan bg-cyan/10 text-cyan-soft"
+                          : "border-hairline text-muted hover:border-cyan/60 hover:text-fg"
+                      }`}
+                    >
+                      {sizeOption}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+          )}
         </fieldset>
 
         {/* Selector de cantidad */}
@@ -114,7 +153,7 @@ export default function ProductCard({ product, selection, onSizeChange, onQuanti
           className="mt-1 inline-flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-violet to-lilac py-2.5 text-sm font-semibold text-ink transition-transform hover:scale-[1.02]"
         >
           <MessageCircle className="h-4 w-4" />
-          Comprar por WhatsApp
+          {isSpecialSize ? "Consultar por WhatsApp" : "Comprar por WhatsApp"}
         </a>
       </div>
     </article>

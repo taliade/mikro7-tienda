@@ -18,13 +18,20 @@ import img12 from "../IMG/12.webp";
  * Catálogo de productos — Mikro 7
  * Fotos reales en src/IMG (1080x1350, formato 4:5). Cada producto tiene 1 o 2
  * imágenes: cuando hay 2, la segunda se muestra al pasar el mouse (hover).
+ *
+ * `category` determina qué tabla de talles se usa en ProductCard:
+ *   "remera" -> SIZES (XS-XXL)
+ *   "jean"   -> JEAN_SIZES, más JEAN_SPECIAL_SIZES a consultar por WhatsApp.
  */
 export const SIZES = ["XS", "S", "M", "L", "XL", "XXL"];
+export const JEAN_SIZES = ["36", "38", "40", "44", "46"];
+export const JEAN_SPECIAL_SIZES = ["48", "50", "52", "54", "56", "58"];
 
 export const products = [
   {
     id: "Remera-BTS-Dynamite-Neon",
     name: "Remera BTS Dynamite Neon",
+    category: "remera",
     tag: "Dynamite",
     price: 24999,
     images: [img1, img2],
@@ -33,6 +40,7 @@ export const products = [
   {
     id: "Remera-BTS-Mic-Drop-Dark",
     name: "Remera BTS Mic Drop Dark",
+    category: "remera",
     tag: "Nuevo",
     price: 27999,
     images: [img3, img4],
@@ -41,6 +49,7 @@ export const products = [
   {
     id: "Remera-BTS-Memories-Scrapbook",
     name: "Remera BTS Memories Scrapbook",
+    category: "remera",
     tag: null,
     price: 25999,
     images: [img5, img6],
@@ -49,6 +58,7 @@ export const products = [
   {
     id: "Remera-BTS-Arirang-Heritage",
     name: "Remera BTS Arirang Heritage",
+    category: "remera",
     tag: "Edición limitada",
     price: 24999,
     images: [img7, img8],
@@ -57,6 +67,7 @@ export const products = [
   {
     id: "jean-yet-to-come",
     name: "Jean Yet to Come Nostalgia Wide Leg",
+    category: "jean",
     tag: null,
     price: 43999,
     images: [img9],
@@ -65,6 +76,7 @@ export const products = [
   {
     id: "Jean-Butter-Streetwide",
     name: "Jean Butter Streetwide",
+    category: "jean",
     tag: null,
     price: 45999,
     images: [img10],
@@ -73,6 +85,7 @@ export const products = [
   {
     id: "Jean-Proof-Tour-Wide-Leg",
     name: "Jean Proof Tour Wide Leg",
+    category: "jean",
     tag: "Nuevo",
     price: 39999,
     images: [img11],
@@ -81,6 +94,7 @@ export const products = [
   {
     id: "Jean-Map-of-the-Soul-Purple-Moon-Wide-Leg",
     name: "Jean Map of the Soul Purple Moon Wide Leg",
+    category: "jean",
     tag: "Map of the Soul",
     price: 47999,
     images: [img12],

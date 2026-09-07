@@ -10,12 +10,33 @@
  */
 export const WHATSAPP_NUMBER = import.meta.env.VITE_WHATSAPP_NUMBER || "5491176661070";
 
+const ARTICLE_BY_CATEGORY = {
+  remera: "la remera",
+  jean: "el jean",
+};
+
+// Igual que ARTICLE_BY_CATEGORY pero ya contraído para ir después de "de"
+// (de + el -> del), así "consultar precio... de ${article}" queda bien en español.
+const ARTICLE_AFTER_DE_BY_CATEGORY = {
+  remera: "de la remera",
+  jean: "del jean",
+};
+
 /**
  * Arma la URL de WhatsApp para una compra rápida de producto.
- * @param {{ name: string, size: string, quantity: number }} params
+ * @param {{
+ *   name: string,
+ *   category: "remera" | "jean",
+ *   size: string,
+ *   quantity: number,
+ *   isSpecialSize?: boolean,
+ * }} params
  */
-export function buildProductWhatsAppLink({ name, size, quantity }) {
-  const message = `¡Hola Mikro 7! Quiero encargar la remera ${name} en talle ${size}, cantidad: ${quantity}. ¿Tienen stock?`;
+export function buildProductWhatsAppLink({ name, category, size, quantity, isSpecialSize = false }) {
+  const message = isSpecialSize
+    ? `¡Hola Mikro 7! Quiero consultar precio y stock ${ARTICLE_AFTER_DE_BY_CATEGORY[category] ?? "de la prenda"} ${name} en talle especial ${size}, cantidad: ${quantity}.`
+    : `¡Hola Mikro 7! Quiero encargar ${ARTICLE_BY_CATEGORY[category] ?? "la prenda"} ${name} en talle ${size}, cantidad: ${quantity}. ¿Tienen stock?`;
+
   return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
 }
 

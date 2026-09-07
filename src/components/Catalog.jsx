@@ -2,12 +2,18 @@ import { useState } from "react";
 import { products } from "../data/products";
 import ProductCard from "./ProductCard";
 
-const DEFAULT_SIZE = "M";
 const DEFAULT_QTY = 1;
+const DEFAULT_SIZE_BY_CATEGORY = {
+  remera: "M",
+  jean: "40",
+};
 
 function buildInitialSelections() {
   return Object.fromEntries(
-    products.map((product) => [product.id, { size: DEFAULT_SIZE, quantity: DEFAULT_QTY }])
+    products.map((product) => [
+      product.id,
+      { size: DEFAULT_SIZE_BY_CATEGORY[product.category] ?? "M", quantity: DEFAULT_QTY },
+    ])
   );
 }
 
