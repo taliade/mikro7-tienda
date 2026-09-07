@@ -1,0 +1,106 @@
+@import "tailwindcss";
+
+/* ------------------------------------------------------------------ */
+/* Design tokens — paleta K-Pop (violeta/lila + neón cian + holograma) */
+/* ------------------------------------------------------------------ */
+@theme {
+  --font-display: "Space Grotesk", "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-body: "Inter", ui-sans-serif, system-ui, sans-serif;
+
+  /* Tailwind genera utilidades bg, text y border a partir de estos nombres */
+  --color-ink: #0a0a12;
+  --color-ink-soft: #121022;
+  --color-surface: #16142a;
+  --color-surface-hi: #1e1b38;
+  --color-hairline: #2c2850;
+
+  --color-violet: #9d4edd;
+  --color-lilac: #c77dff;
+  --color-lilac-soft: #e0aaff;
+  --color-cyan: #5eead4;
+  --color-cyan-soft: #99f6e4;
+
+  --color-fg: #f5f3ff;
+  --color-muted: #a9a5c1;
+
+  /* Fondo cálido del header, a juego con los assets de marca (logo/banner) */
+  --color-cream: #f9e9d7;
+}
+
+html {
+  scroll-behavior: smooth;
+  color-scheme: dark;
+}
+
+body {
+  background-color: var(--color-ink);
+  color: var(--color-fg);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+}
+
+h1,
+h2,
+h3,
+h4,
+.font-display {
+  font-family: var(--font-display);
+}
+
+/* Borde holográfico sutil reutilizable */
+.holo-border {
+  position: relative;
+  isolation: isolate;
+}
+
+.holo-border::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  padding: 1px;
+  border-radius: inherit;
+  background: linear-gradient(
+    120deg,
+    var(--color-violet),
+    var(--color-cyan-soft),
+    var(--color-lilac),
+    var(--color-violet)
+  );
+  background-size: 300% 300%;
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  animation: holo-sheen 6s linear infinite;
+  pointer-events: none;
+  z-index: 1;
+}
+
+@keyframes holo-sheen {
+  0% {
+    background-position: 0% 50%;
+  }
+  100% {
+    background-position: 300% 50%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .holo-border::before {
+    animation: none;
+  }
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+/* Scrollbar discreta */
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-ink);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-surface-hi);
+  border-radius: 999px;
+}
