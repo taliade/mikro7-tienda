@@ -6,7 +6,7 @@ import bannerFooter from "../IMG/banner-footer.webp";
 // Nota: lucide-react ya no incluye íconos de marcas registradas (ej. Instagram),
 // por lo que se usa un ícono genérico equivalente (Camera) como estampilla visual.
 const SOCIAL_LINKS = [
-  { label: "Instagram", href: "https://instagram.com/mikro7", icon: Camera },
+  { label: "Instagram", href: "https://www.instagram.com/mik_ro7", icon: Camera },
   {
     label: "WhatsApp",
     href: `https://wa.me/${WHATSAPP_NUMBER}`,
